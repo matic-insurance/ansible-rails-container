@@ -1,6 +1,6 @@
 Role Name
 =========
-
+[![Build Status](https://travis-ci.org/matic-insurance/ansible-rails-container-app.svg?branch=master)](https://travis-ci.org/matic-insurance/ansible-rails-container-app)
 A brief description of the role goes here.
 
 Requirements
