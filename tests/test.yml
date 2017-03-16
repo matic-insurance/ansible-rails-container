@@ -1,5 +1,20 @@
 ---
 - hosts: all
   become: yes
+  vars:
+    app_force_image_pull: false
   roles:
-    - ansible-rails-container-app
+    - role: ../..
+      app_container_name: 'test1'
+      app_command: 'sleep 100'
+      app_migration_command: 'echo "Its migrating"'
+      app_ports_mapping: ['9292:9292']
+
+    - role: ../..
+      app_container_name: 'test2'
+      app_command: 'sleep 100'
+      app_migration_command: 'echo "Its migrating"'
+      app_files_local_folder: './files'
+      app_configuration_files:
+        hello.txt: test/hello.txt
+        settings.yml: config/settings.local.yml

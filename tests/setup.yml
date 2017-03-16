@@ -1,5 +1,13 @@
 ---
-- hosts: travis
+- hosts: vagrant
+  become: yes
+  tasks:
+  - apt:
+      name: python-setuptools
+  - apt:
+      name: python-pip
+
+- hosts: all
   become: yes
   tasks:
   - pip:

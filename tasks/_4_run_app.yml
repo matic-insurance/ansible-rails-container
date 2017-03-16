@@ -1,0 +1,14 @@
+---
+- name: 'App: run'
+  docker_container:
+    name: '{{ app_container_name }}'
+    image: '{{ app_tagged_docker_image }}'
+    memory: '{{ container_memory_limit }}'
+    state: started
+    restart: '{{ app_docker_image_status.changed }}'
+    restart_policy: '{{ app_container_restart_policy }}'
+    recreate: '{{ app_configs_status.changed }}'
+    command: '{{ app_command }}'
+    ports: '{{ app_ports_mapping }}'
+    env: '{{ app_container_environment }}'
+    volumes: '{{ app_container_volumes }}'

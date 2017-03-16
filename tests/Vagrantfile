@@ -20,7 +20,7 @@ Vagrant.configure('2') do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = 'ubuntu/trusty64'
+  config.vm.box = 'williamyeh/ubuntu-trusty64-docker'
   config.vm.hostname = host_name
   config.vm.network :forwarded_port, guest: 22, host: ssh_host_port, id: 'ssh'
   config.vm.network :forwarded_port, guest: 80, host: 1234

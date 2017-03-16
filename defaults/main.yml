@@ -1,2 +1,51 @@
 ---
-# defaults file for ansible-rails-container-app
+###########################################################################
+# Required settings
+# Docker credentials for private image
+app_docker_login:
+app_docker_password:
+app_docker_email:
+
+# Docker repository image and tag
+app_docker_image: 'alpine'
+app_docker_image_tag: 'latest'
+
+#Name of the container when it's running
+app_container_name: 'rails'
+# List of exposed ports for container
+app_ports_mapping: ['3000:3000']
+#Command to run in docker
+app_command: 'echo "Hello"'
+# Dict of environment variables
+app_environment_vars: {}
+# Configuration files to deploy on server and mount to image
+app_configuration_files: {}
+
+###########################################################################
+# Optional settings
+# Environment to run rails
+app_environment: production
+# Folder with all config files on local machine
+app_files_local_folder: './files'
+#Force image pull
+app_force_image_pull: true
+#Docker container restart policy
+app_container_restart_policy: always
+#Migration command
+app_migration_command: 'bundle exec rake db:migrate'
+#Container memory limit
+container_memory_limit: 1g
+
+###########################################################################
+# Computed settings
+# Default rails environment variables
+app_rails_environment:
+  RAILS_ENV: '{{ app_environment }}'
+  RACK_ENV: '{{ app_environment }}'
+
+# Settings path where rendered config files will be located
+app_settings_path: '{{ ansible_user_dir }}/{{ app_container_name }}'
+# Container environment variables
+app_container_environment: '{{ app_rails_environment | combine(app_environment_vars) }}'
+# Full docker image name
+app_tagged_docker_image: '{{ app_docker_image }}:{{ app_docker_image_tag }}'

@@ -1,0 +1,30 @@
+---
+- name: 'Configuration: Create app settings directory'
+  file:
+    path: '{{ app_settings_path }}'
+    state: 'directory'
+
+- name: 'Configuration: Render config directories'
+  file:
+    path: "{{ app_settings_path + '/' + item.value | dirname }}"
+    state: 'directory'
+    recurse: yes
+  with_dict: '{{ app_configuration_files }}'
+
+- name: 'Configuration: Render config files'
+  copy:
+    src: "{{ app_files_local_folder }}/{{ item.key }}"
+    dest: '{{ app_settings_path }}/{{ item.value }}'
+  with_dict: '{{ app_configuration_files }}'
+  register: app_configs_status
+
+- name: 'Configuration: Prepare empty volumes list'
+  set_fact:
+    app_container_volumes: []
+  changed_when: false
+
+- name: 'Configuration: Prepare volumes list'
+  set_fact:
+    app_container_volumes: "{{ app_container_volumes|default([]) + [ app_settings_path + '/' + item.value + ':/app/' + item.value + ':ro' ] }}"
+  with_dict: '{{ app_configuration_files }}'
+  changed_when: app_configs_status.changed
