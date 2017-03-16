@@ -1,0 +1,10 @@
+---
+- hosts: travis
+  become: yes
+  tasks:
+  - pip:
+      name: setuptools
+      version: 32.3.1
+  - pip:
+      name: docker-py
+      version: 1.10.6
