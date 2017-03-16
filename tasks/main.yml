@@ -1,2 +1,5 @@
 ---
-# tasks file for ansible-rails-container-app
+- include: _1_pull_image.yml
+- include: _2_prepare_configs.yml
+- include: _3_run_migrations.yml
+- include: _4_run_app.yml

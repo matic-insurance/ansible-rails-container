@@ -1,0 +1,29 @@
+---
+- block:
+  - name: Run migrations
+    run_once: true
+    docker_container:
+      name: 'migrations'
+      image: '{{ app_tagged_docker_image }}'
+      state: started
+      detach: false
+
+      command: '{{ app_migration_command }}'
+
+      env: '{{ app_container_environment }}'
+      volumes: '{{ app_container_volumes }}'
+    register: app_migrations_status
+    changed_when: false
+    when: app_migrations_status is not defined
+
+  always:
+  - name: Clean up migrations container
+    docker_container:
+      name: 'migrations'
+      image: '{{ app_tagged_docker_image }}'
+      state: absent
+    changed_when: false
+
+  - name: Fail if failed
+    command: /bin/false
+    when: app_migrations_status|failed
