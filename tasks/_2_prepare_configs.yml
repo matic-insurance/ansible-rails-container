@@ -25,6 +25,6 @@
 
 - name: 'Configuration: Prepare volumes list'
   set_fact:
-    app_container_volumes: "{{ app_container_volumes|default([]) + [ app_settings_path + '/' + item.value + ':/app/' + item.value + ':ro' ] }}"
+    app_container_volumes: "{{ app_container_volumes|default([]) + [ app_settings_path + '/' + item.value + ':' + item.value + ':ro' ] }}"
   with_dict: '{{ app_configuration_files }}'
   changed_when: app_configs_status.changed
