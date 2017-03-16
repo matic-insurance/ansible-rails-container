@@ -28,5 +28,14 @@ script:
   - ansible-playbook tests/test.yml -i tests/travis.hosts --syntax-check --connection=local
   - ansible-playbook tests/test.yml -i tests/travis.hosts --check --connection=local
 
+  # Run role
+  - ansible-playbook tests/test.yml -i tests/travis.hosts --connection=local
+  # Check if containers are running
+  - docker inspect test1 | grep -q "Status.*running"
+  - docker inspect test2 | grep -q "Status.*running"
+
+  # Run Idempotent test
+  - ansible-playbook tests/test.yml -i tests/travis.hosts --connection=local | grep -q 'changed=0.*failed=0'
+
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
