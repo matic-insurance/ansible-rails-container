@@ -7,11 +7,10 @@
       image: '{{ app_tagged_docker_image }}'
       state: started
       detach: false
-
       command: '{{ app_migration_command }}'
-
       env: '{{ app_container_environment }}'
       volumes: '{{ app_container_volumes }}'
+      log_driver: json-file
     register: app_migrations_status
     changed_when: false
 
