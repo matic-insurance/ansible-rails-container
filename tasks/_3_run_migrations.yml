@@ -1,6 +1,6 @@
 ---
 - block:
-  - name: Run migrations
+  - name: 'Migrations: run'
     run_once: true
     docker_container:
       name: 'migrations'
@@ -16,13 +16,14 @@
     changed_when: false
 
   always:
-  - name: Clean up migrations container
+  - name: 'Migrations: clean'
     docker_container:
       name: 'migrations'
       image: '{{ app_tagged_docker_image }}'
       state: absent
     changed_when: false
 
-  - name: Fail if failed
-    command: /bin/false
-    when: app_migrations_status|failed
+  - name: 'Migrations: check status'
+    assert:
+      msg: Migrations should succeed
+      that: app_migrations_status|success

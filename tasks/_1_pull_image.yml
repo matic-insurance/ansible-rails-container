@@ -1,12 +1,12 @@
 ---
-- name: Log into DockerHub
+- name: 'Image: DockerHub login'
   docker_login:
     username: '{{ app_docker_login }}'
     password: '{{ app_docker_password }}'
     email: '{{ app_docker_email }}'
   when: app_docker_login is not none
 
-- name: Pull application image
+- name: 'Image: pull'
   docker_image:
     force: '{{ app_force_image_pull }}'
     name: '{{ app_docker_image }}'

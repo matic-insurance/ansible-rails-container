@@ -1,7 +1,5 @@
 ---
-- debug: msg="{{app_container_volumes}}"
-
-- name: Run app container
+- name: 'App: run'
   docker_container:
     name: '{{ app_container_name }}'
     image: '{{ app_tagged_docker_image }}'
