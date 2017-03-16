@@ -13,9 +13,9 @@ app_docker_image_tag: 'latest'
 #Name of the container when it's running
 app_container_name: 'rails'
 # List of exposed ports for container
-app_ports_mapping: ['3000:3000']
+app_ports_mapping: []
 #Command to run in docker
-app_command: 'echo "Hello"'
+app_command: 'bundle exec rails s'
 # Dict of environment variables
 app_environment_vars: {}
 # Configuration files to deploy on server and mount to image

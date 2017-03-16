@@ -1,38 +1,113 @@
-Role Name
+rails-container-app
 =========
 [![Build Status](https://travis-ci.org/matic-insurance/ansible-rails-container-app.svg?branch=master)](https://travis-ci.org/matic-insurance/ansible-rails-container-app)
-A brief description of the role goes here.
+
+Role used to download, configure and run docker container with rails app
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Ubuntu 14.04 is tested.
+
+This role uses Ansible's docker module, so requirements are [the same](https://docs.ansible.com/ansible/docker_image_module.html#requirements-on-host-that-executes-module).
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Here is the list of Required variables with default values:
+```yaml
+# Docker repository image and tag
+app_docker_image: 'alpine'
+app_docker_image_tag: 'latest'
+
+#Name of the container when it's running
+app_container_name: 'rails'
+# List of exposed ports for container
+app_ports_mapping: []
+#Command to run in docker
+app_command: 'bundle exec rails s'
+# Dict of environment variables
+app_environment_vars: {}
+# Configuration files to deploy on server and mount to image
+app_configuration_files: {}
+```
+If you pulling image from private docker repository - specify docker credentials:
+```yaml
+# Docker credentials for private image
+app_docker_login: 'login'
+app_docker_password: 'password'
+app_docker_email: 'email'
+```
+
+These variables are optional and can be changed if needed
+```yaml
+# Environment to run rails
+app_environment: production
+# Folder with all config files on local machine
+app_files_local_folder: './files'
+#Force image pull
+app_force_image_pull: true
+#Docker container restart policy
+app_container_restart_policy: always
+#Migration command
+app_migration_command: 'bundle exec rake db:migrate'
+#Container memory limit
+container_memory_limit: 1g
+```
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+No dependencies
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Simpliest playbook can be following:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+- hosts: webservers
+  roles:
+    - role: rails-container-app
+      app_docker_image: 'maticinsurace/rails-app'
+      app_docker_tag: 'latest'
+      app_ports_mapping: ['3000:3000']
+```
+This playbook will pull image maticinsurace/rails-app:latest, 
+run migrations `bundle exec rake db:migrate` and start rails app `bundle exec rails s`
+
+If you want to specify additional environment variables:
+```yaml
+- hosts: webservers
+  roles:
+    - role: rails-container-app
+      app_command: 'bundle exec sidekiq'
+      app_environment_vars: 
+        REDIS_URL: redis://redis.host:6379
+        DATABASE_URL: postgress://db.host:5432
+```
+THis will execute sidekiq and add redis/postgress variables
+
+If you want custom files to be deployed to the app:
+```yaml
+- hosts: webservers
+  roles:
+    - role: rails-container-app
+      app_files_local_folder: './files/webserver'
+      app_configuration_files: 
+        settings.yaml: /app/config/settings.local.yaml
+        apns_cert.pem: certs/apns.pem
+```
+This will read file from local machine using key as path after `app_files_local_folder`
+and mount them to docker image using value as path. E.g `./files/webserver/settings.yaml` 
+will be mounted as `/app/config/settings.local.yam:ro`
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Matic is a communication platform that connects lenders and borrowers originating a new home loan. A borrower now knows where they are in the loan process and what they need to do to complete the loan.

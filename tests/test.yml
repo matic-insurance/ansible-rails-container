@@ -16,5 +16,5 @@
       app_migration_command: 'echo "Its migrating"'
       app_files_local_folder: './files'
       app_configuration_files:
-        hello.txt: test/hello.txt
-        settings.yml: config/settings.local.yml
+        hello.txt: /test/hello.txt
+        settings.yml: /config/settings.local.yml
