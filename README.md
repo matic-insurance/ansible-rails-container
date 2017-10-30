@@ -2,7 +2,7 @@ rails-container-app
 =========
 [![Build Status](https://travis-ci.org/matic-insurance/ansible-rails-container-app.svg?branch=master)](https://travis-ci.org/matic-insurance/ansible-rails-container-app)
 
-Role used to download, configure and run docker container with rails app
+Role used to download, configure and run docker container with rails app, before running app role runs migrations
 
 Requirements
 ------------
