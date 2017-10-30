@@ -1,7 +1,7 @@
 ---
-- include: _1_pull_image.yml
+- import_tasks: _1_pull_image.yml
   when: app_docker_image_status is not defined
-- include: _2_prepare_configs.yml
-- include: _3_run_migrations.yml
+- import_tasks: _2_prepare_configs.yml
+- import_tasks: _3_run_migrations.yml
   when: app_migrations_status is not defined
-- include: _4_run_app.yml
+- import_tasks: _4_run_app.yml
