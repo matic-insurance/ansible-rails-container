@@ -23,7 +23,7 @@ app_configuration_files: {}
 
 ###########################################################################
 # Optional settings
-# Environment to run rails
+# Environment to run container
 app_environment: production
 # Folder with all config files on local machine
 app_files_local_folder: './files'
@@ -38,14 +38,14 @@ container_memory_limit: 1g
 
 ###########################################################################
 # Computed settings
-# Default rails environment variables
-app_rails_environment:
+# Default environment variables
+app_default_environment:
   RAILS_ENV: '{{ app_environment }}'
   RACK_ENV: '{{ app_environment }}'
 
 # Settings path where rendered config files will be located
 app_settings_path: '{{ ansible_user_dir }}/{{ app_container_name }}'
 # Container environment variables
-app_container_environment: '{{ app_rails_environment | combine(app_environment_vars) }}'
+app_container_environment: '{{ app_default_environment | combine(app_environment_vars) }}'
 # Full docker image name
 app_tagged_docker_image: '{{ app_docker_image }}:{{ app_docker_image_tag }}'
