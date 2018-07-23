@@ -20,7 +20,7 @@
 
 - name: 'Configuration: Prepare empty volumes list'
   set_fact:
-    app_container_volumes: []
+    app_container_volumes: '{{ app_mounted_folders }}'
   changed_when: false
 
 - name: 'Configuration: Prepare volumes list'
