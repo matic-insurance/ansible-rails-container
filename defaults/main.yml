@@ -12,6 +12,10 @@ app_docker_image_tag: 'latest'
 
 #Name of the container when it's running
 app_container_name: 'rails'
+# List of mounted folders from host
+app_mounted_folders:
+  - '/tmp:/tmp:rw'
+  - '/tmp:/app/tmp:rw'
 # List of exposed ports for container
 app_ports_mapping: []
 #Command to run in docker

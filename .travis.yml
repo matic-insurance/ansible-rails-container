@@ -15,7 +15,7 @@ addons:
 
 install:
   # Install ansible
-  - pip install ansible
+  - pip install ansible==2.5.5
 
   # Install ansible dependencies
   - ansible-playbook tests/setup.yml -i tests/travis.hosts --connection=local
