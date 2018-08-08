@@ -12,3 +12,4 @@
     ports: '{{ app_ports_mapping }}'
     env: '{{ app_container_environment }}'
     volumes: '{{ app_container_volumes }}'
+    tmpfs: '{{ app_temp_folders }}'
